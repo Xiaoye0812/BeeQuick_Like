@@ -16,8 +16,16 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from django.views.static import serve
+
+from . import settings
+from home_page import views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^static/(?P<path>.*)', serve, {'document_root': settings.STATIC_ROOT}),
+    url(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT}),
+    url(r'^$', views.show_homepage),
     url(r'^homepage/', include('home_page.urls', namespace='home')),
     url(r'^quickbuy/', include('quick_buy.urls', namespace='quickbuy')),
     url(r'^carts/', include('carts.urls', namespace='carts')),
